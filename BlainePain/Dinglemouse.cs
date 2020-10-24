@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using BlainePain.Geometry;
+using BlainePain.Rail;
 
 namespace BlainePain
 {
@@ -31,36 +32,44 @@ namespace BlainePain
             }
             return pos;
         }
-        public static int TrainCrash(string track, string aTrain, int aTrainPos, string bTrain, int bTrainPos, int limit)
+        
+        private static Track GetTrack(ICoord start, IGrid grid)
         {
-            Console.WriteLine($"track length: {track.Length}");
-            var grid = new Grid(track);
-            grid.PrintGrid();
-
-            var start = GetStart(grid);
-            //grid.PutValue(start, 'H');
-            //grid.PrintGrid();
             bool moreTrack = true;
-
             ICoord pos = new Coord(start);
             var direction = Direction.East;
-            var resultTrack = new StringBuilder();
-            int i = 0;
+            var track = new Track();
+
             do
             {
                 char piece = grid.GetValue(pos);
-                resultTrack.Append(piece);
+                track.AddTrackPiece(piece, new Coord(pos));
+
                 moreTrack = Dinglemouse.UpdatePositionAndDirection(grid, ref pos, ref direction);
-                i++; 
 
-            } while (moreTrack && !pos.Equals(start) && i < 500);
+            } while (moreTrack && !pos.Equals(start));
 
-            Console.Write(resultTrack.ToString());
+            return track;
+        }
+        public static int TrainCrash(string trackString, string aTrain, int aTrainPos, string bTrain, int bTrainPos, int limit)
+        {
+            //Console.WriteLine($"track length: {trackString.Length}");
+            var grid = new Grid(trackString);
+            grid.PrintGrid();
+
+            var start = GetStart(grid);
+            var track = GetTrack(start, grid);
+
+            ICoord trainAGridPos = track.GetGridPosition(aTrainPos);
+            grid.PutValue(trainAGridPos, 'A');
+            ICoord trainBGridPos = track.GetGridPosition(bTrainPos);
+            grid.PutValue(trainBGridPos, 'B');
+            grid.PrintGrid();
         
             return 0;
         }
 
-        public static bool UpdatePositionAndDirection(Grid grid, ref ICoord pos, ref Direction direction)
+        public static bool UpdatePositionAndDirection(IGrid grid, ref ICoord pos, ref Direction direction)
         {
             char gridVal;
             bool movedDown = false;
@@ -134,13 +143,6 @@ namespace BlainePain
                     }
                     break;    
                 case Direction.Northwest:
-                    // check position 1
-                        // if pos 1 == '+' go that way
-
-                    // check position 2
-                    // check position 3
-
-
                     gridVal = ' ';
                     if (pos.y > 0)
                     {
