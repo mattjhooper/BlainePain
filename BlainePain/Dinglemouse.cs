@@ -11,7 +11,7 @@ namespace BlainePain
         // Blaine is a pain, and that is the truth
         // =======================================
         
-        private static ICoord GetStart(IGrid grid)
+        public static ICoord GetStart(IGrid grid)
         {
             var pos = new Coord(0,0);
             char valueAtPos = grid.GetValue(pos);
@@ -33,7 +33,7 @@ namespace BlainePain
             return pos;
         }
         
-        private static Track GetTrack(ICoord start, IGrid grid)
+        public static Track GetTrack(ICoord start, IGrid grid)
         {
             bool moreTrack = true;
             ICoord pos = new Coord(start);
