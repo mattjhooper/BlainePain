@@ -1,3 +1,5 @@
+using System;
+
 namespace BlainePain.Grid
 {
     public interface ICoord
@@ -5,10 +7,12 @@ namespace BlainePain.Grid
         int x { get; }
         int y { get; }
 
-        void MoveUp();
-        void MoveDown();
+        ICoord MoveUp();
+        ICoord MoveDown();
 
-        void MoveLeft();
-        void MoveRight();
+        ICoord MoveLeft();
+        ICoord MoveRight();        
+
+        ICoord MoveTo(ICoord newPosition);      
     }
 }
