@@ -2,7 +2,7 @@ using System;
 
 namespace BlainePain.Geometry
 {
-    public class Coord : ICoord
+    public struct Coord : ICoord
     {
         public int x { get; private set; }
         public int y { get; private set; }
