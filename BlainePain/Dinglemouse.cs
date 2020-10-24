@@ -1,6 +1,6 @@
 using System;
 using System.Text;
-using BlainePain.Grid;
+using BlainePain.Geometry;
 
 namespace BlainePain
 {
@@ -34,12 +34,12 @@ namespace BlainePain
         public static int TrainCrash(string track, string aTrain, int aTrainPos, string bTrain, int bTrainPos, int limit)
         {
             Console.WriteLine($"track length: {track.Length}");
-            var grid = new Grid.Grid(track);
+            var grid = new Grid(track);
             grid.PrintGrid();
 
             var start = GetStart(grid);
-            grid.PutValue(start, 'H');
-            grid.PrintGrid();
+            //grid.PutValue(start, 'H');
+            //grid.PrintGrid();
             bool moreTrack = true;
 
             ICoord pos = new Coord(start);
@@ -60,7 +60,7 @@ namespace BlainePain
             return 0;
         }
 
-        public static bool UpdatePositionAndDirection(Grid.Grid grid, ref ICoord pos, ref Direction direction)
+        public static bool UpdatePositionAndDirection(Grid grid, ref ICoord pos, ref Direction direction)
         {
             char gridVal;
             bool movedDown = false;

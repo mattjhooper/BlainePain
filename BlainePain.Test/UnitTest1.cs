@@ -1,6 +1,6 @@
 using System;
 using Xunit;
-using BlainePain.Grid;
+using BlainePain.Geometry;
 using System.Text;
 
 namespace BlainePain.Test
@@ -20,7 +20,7 @@ namespace BlainePain.Test
         public void GridHasCorrectMaximums()
         {
             // Arrange
-            var grid = new Grid.Grid("123\n456\n789");
+            var grid = new Grid("123\n456\n789");
 
             // Act
             var maxX = grid.MaxX;            
@@ -149,7 +149,7 @@ namespace BlainePain.Test
         public void TestTracks(string track, int x, int y, Direction startDirection, String desiredResult)
         {
             // Arrange
-            var grid = new Grid.Grid(track);
+            var grid = new Grid(track);
             ICoord pos = new Coord(x, y);
             var direction = startDirection;
             var resultTrack = new StringBuilder();

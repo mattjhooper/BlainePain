@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Threading;
-using BlainePain.Grid;
+using BlainePain.Geometry;
 
 namespace BlainePain
 {

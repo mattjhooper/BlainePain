@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace BlainePain.Grid
+namespace BlainePain.Geometry
 {
     public class Grid : IGrid
     {

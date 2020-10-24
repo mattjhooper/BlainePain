@@ -1,6 +1,6 @@
 using System;
 
-namespace BlainePain.Grid
+namespace BlainePain.Geometry
 {
     public class Coord : ICoord
     {

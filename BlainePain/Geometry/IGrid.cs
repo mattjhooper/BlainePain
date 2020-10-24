@@ -1,4 +1,4 @@
-namespace BlainePain.Grid
+namespace BlainePain.Geometry
 {
     public interface IGrid
     {    
