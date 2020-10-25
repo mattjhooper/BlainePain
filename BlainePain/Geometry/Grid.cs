@@ -23,7 +23,13 @@ namespace BlainePain.Geometry
 
         public int MaxY => grid.Length - 1;
 
-        public char GetValue(Coord pos) => grid[pos.y][pos.x];
+        public char GetValue(Coord pos)
+        {
+            if (!IsInGrid(pos))
+                throw new InvalidOperationException($"Invalid Position specified: [{pos.x},{pos.y}].");
+            
+            return  grid[pos.y][pos.x];
+        }
         
         public void PrintGrid()
         {
@@ -38,11 +44,19 @@ namespace BlainePain.Geometry
 
         public void PutValue(Coord pos, char value)
         {
+            if (!IsInGrid(pos))
+                throw new InvalidOperationException($"Invalid Position specified: [{pos.x},{pos.y}].");
+
             char[] yChars = grid[pos.y].ToCharArray();
             yChars[pos.x] = value;
             grid[pos.y] = new string(yChars);
         }    
 
         public bool IsMaxExtent(Coord pos) => pos.x == MaxX && pos.y == MaxY;
+
+        public bool IsInGrid(Coord pos)
+        {
+            return 0 <= pos.x && pos.x <= MaxX && 0 <= pos.y && pos.y <= MaxY;
+        }
     }
 }
