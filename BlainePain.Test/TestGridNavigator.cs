@@ -58,6 +58,53 @@ namespace BlainePain.Test
             result.NewPosition.x.Should().Be(expectedX);
             result.NewPosition.y.Should().Be(expectedY);
             result.NewValue.Should().BeNull();
-        }        
+        }   
+
+        [Fact] 
+        public void CheckStartOfNextRowIsCorrect()
+        {
+            // Arrange
+            var startPos = new Coord(1, 0);
+            var sit = new GridNavigator();
+
+            // Act
+            var result = sit.CheckStartOfNextRow(grid, startPos);
+
+            result.IsInGrid.Should().BeTrue();
+            result.NewPosition.x.Should().Be(0);
+            result.NewPosition.y.Should().Be(1);
+            result.NewValue.Should().Be('W');
+        }
+
+        [Fact] 
+        public void CheckFindFirstMatch()
+        {
+            // Arrange
+            var sit = new GridNavigator();
+
+            // Act
+            var result = sit.FindFirst(grid, c => c == 'X');
+
+            result.IsInGrid.Should().BeTrue();
+            result.NewPosition.x.Should().Be(1);
+            result.NewPosition.y.Should().Be(1);
+            result.NewValue.Should().Be('X');
+        }
+
+        [Fact] 
+        public void CheckFindFirstNoMatch()
+        {
+            // Arrange
+            var sit = new GridNavigator();
+
+            // Act
+            var result = sit.FindFirst(grid, c => c == '-');
+
+            result.IsInGrid.Should().BeFalse();
+            result.NewPosition.x.Should().Be(2);
+            result.NewPosition.y.Should().Be(2);
+            result.NewValue.Should().BeNull();
+        }    
+
     }
 }

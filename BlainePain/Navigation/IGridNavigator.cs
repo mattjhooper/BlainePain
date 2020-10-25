@@ -1,9 +1,14 @@
+using System;
 using BlainePain.Geometry;
 
 namespace BlainePain.Navigation
 {
     public interface IGridNavigator
     {
-        (bool IsInGrid, Coord NewPosition, char? NewValue) CheckDirection(IGrid grid, Coord startPos, Direction direction);
+        NavigationResult CheckDirection(IGrid grid, Coord startPos, Direction direction);
+
+        NavigationResult CheckStartOfNextRow(IGrid grid, Coord startPos);
+
+        NavigationResult FindFirst(IGrid grid, Predicate<char?> predicate);
     }
 }
