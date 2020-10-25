@@ -5,8 +5,6 @@ namespace BlainePain.Rail
 {
     public class Train : IGridable
     {
-        //private readonly List<(ICoord pos, char val)> trackList;
-
         private readonly Track track;
         private readonly bool isExpress;
 
@@ -15,8 +13,6 @@ namespace BlainePain.Rail
 
         public int TrainTrackPosition { get; private set; }
         public string TrainString => trainStr;
-
-        public ICoord TrainGridPosition { get; private set; }
 
         public bool IsExpress => isExpress;
 
@@ -31,7 +27,6 @@ namespace BlainePain.Rail
             this.track = track;
             this.TrainTrackPosition = startPos;
             this.trainStr = trainStr;
-            this.TrainGridPosition = track.GetGridPosition(TrainTrackPosition);
             this.isExpress = trainStr.ToLower()[0] == 'x';
             this.isClockwise = trainStr.ToLower()[0] == trainStr[0];
             this.TimeRemainingAtStation = 0;
@@ -67,7 +62,6 @@ namespace BlainePain.Rail
                TrainTrackPosition = TrainTrackPosition == 0 ? track.TrackLength - 1: TrainTrackPosition - 1;
             }
             
-            TrainGridPosition = track.GetGridPosition(TrainTrackPosition);
             var charAtGridPos = track.GetTrackPiece(TrainTrackPosition);
 
             if (charAtGridPos == 'S' && !IsExpress)
