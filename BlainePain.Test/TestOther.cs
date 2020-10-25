@@ -78,7 +78,6 @@ namespace BlainePain.Test
             } while (moreTrack && i < 20);
             
             // Assert
-            //Assert.Equal(desiredResult, resultTrack.ToString()); 
             resultTrack.ToString().Should().Be(desiredResult);
         }
     }

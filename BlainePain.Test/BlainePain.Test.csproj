@@ -18,4 +18,10 @@
     <ProjectReference Include="..\BlainePain\BlainePain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Tracks\**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -77,11 +77,11 @@ namespace BlainePain
             {
                 if (Train.IsCollision(trainA, trainB, track))
                     return timer;                
-                track.AddToGrid(grid);
-                trainA.AddToGrid(grid);
-                trainB.AddToGrid(grid);
-                grid.PrintGrid();
-                Thread.Sleep(100);
+                // track.AddToGrid(grid);
+                // trainA.AddToGrid(grid);
+                // trainB.AddToGrid(grid);
+                // grid.PrintGrid();
+                // Thread.Sleep(100);
                 trainA.Move();
                 trainB.Move();
                 timer++;
