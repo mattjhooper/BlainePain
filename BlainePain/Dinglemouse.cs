@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using BlainePain.Geometry;
 using BlainePain.Rail;
+using BlainePain.Navigation;
 
 namespace BlainePain
 {
