@@ -5,32 +5,32 @@ namespace BlainePain.Rail
 {
     public class Track : IGridable
     {
-        private readonly List<(Coord pos, char val)> trackList;
+        private readonly List<(Coord pos, char val)> trackPieces;
 
-        public int TrackLength => trackList.Count;
+        public int TrackLength => trackPieces.Count;
         
         public Track()
         {
-            trackList = new List<(Coord, char)>();
+            trackPieces = new List<(Coord, char)>();
         }
         public void AddTrackPiece(char piece, Coord gridPosition)
         {
-            trackList.Add((gridPosition, piece));
+            trackPieces.Add((gridPosition, piece));
         }
 
         public Coord GetGridPosition(int trackPosition)
         {
-            return trackList[trackPosition].pos;
+            return trackPieces[trackPosition].pos;
         }
 
         public char GetTrackPiece(int trackPosition)
         {
-            return trackList[trackPosition].val;
+            return trackPieces[trackPosition].val;
         }
 
         public void AddToGrid(IGrid grid)
         {
-            foreach((Coord pos, char val) in trackList)
+            foreach((Coord pos, char val) in trackPieces)
             {
                 grid.PutValue(pos, val);
             }
