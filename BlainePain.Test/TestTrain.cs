@@ -12,7 +12,7 @@ namespace BlainePain.Test
         public TestTrain()
         {
             IGrid grid = new Grid("/-------\\\n|       |\n|       |\n\\-------/\n");
-            ICoord start = Dinglemouse.GetStart(grid);
+            Coord start = Dinglemouse.GetStart(grid);
             track = Dinglemouse.GetTrack(start, grid);
         }
         [Fact]

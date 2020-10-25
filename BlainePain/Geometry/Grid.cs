@@ -23,7 +23,7 @@ namespace BlainePain.Geometry
 
         public int MaxY => grid.Length - 1;
 
-        public char GetValue(ICoord pos) => grid[pos.y][pos.x];
+        public char GetValue(Coord pos) => grid[pos.y][pos.x];
         
         public void PrintGrid()
         {
@@ -36,13 +36,13 @@ namespace BlainePain.Geometry
             }
         }
 
-        public void PutValue(ICoord pos, char value)
+        public void PutValue(Coord pos, char value)
         {
             char[] yChars = grid[pos.y].ToCharArray();
             yChars[pos.x] = value;
             grid[pos.y] = new string(yChars);
         }    
 
-        public bool IsMaxExtent(ICoord pos) => pos.x == MaxX && pos.y == MaxY;
+        public bool IsMaxExtent(Coord pos) => pos.x == MaxX && pos.y == MaxY;
     }
 }

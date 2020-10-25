@@ -5,20 +5,20 @@ namespace BlainePain.Rail
 {
     public class Track : IGridable
     {
-        private readonly List<(ICoord pos, char val)> trackList;
+        private readonly List<(Coord pos, char val)> trackList;
 
         public int TrackLength => trackList.Count;
         
         public Track()
         {
-            trackList = new List<(ICoord, char)>();
+            trackList = new List<(Coord, char)>();
         }
-        public void AddTrackPiece(char piece, ICoord gridPosition)
+        public void AddTrackPiece(char piece, Coord gridPosition)
         {
             trackList.Add((gridPosition, piece));
         }
 
-        public ICoord GetGridPosition(int trackPosition)
+        public Coord GetGridPosition(int trackPosition)
         {
             return trackList[trackPosition].pos;
         }
@@ -30,7 +30,7 @@ namespace BlainePain.Rail
 
         public void AddToGrid(IGrid grid)
         {
-            foreach((ICoord pos, char val) in trackList)
+            foreach((Coord pos, char val) in trackList)
             {
                 grid.PutValue(pos, val);
             }

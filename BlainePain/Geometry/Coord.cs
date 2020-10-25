@@ -2,7 +2,7 @@ using System;
 
 namespace BlainePain.Geometry
 {
-    public struct Coord : ICoord
+    public struct Coord
     {
         public int x { get; private set; }
         public int y { get; private set; }
@@ -13,32 +13,32 @@ namespace BlainePain.Geometry
             this.y = y;
         }
 
-        public Coord(ICoord coord) : this(coord.x, coord.y) {}            
+        public Coord(Coord coord) : this(coord.x, coord.y) {}            
 
-        public ICoord MoveUp()
+        public Coord MoveUp()
         {
             y--;
             return this; 
         } 
 
-        public ICoord MoveDown()
+        public Coord MoveDown()
         { 
             y++; 
             return this; 
         }
         
-        public ICoord MoveLeft()
+        public Coord MoveLeft()
         {
             x--;
             return this;
         }
-        public ICoord MoveRight() 
+        public Coord MoveRight() 
         {
             x++;           
             return this;
         }
 
-        public ICoord MoveTo(ICoord newPosition) 
+        public Coord MoveTo(Coord newPosition) 
         {
             x = newPosition.x;
             y = newPosition.y;      

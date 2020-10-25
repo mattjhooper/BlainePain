@@ -17,7 +17,7 @@ namespace BlainePain.Test
         {
             // Arrange 
             var grid = new Grid(track);
-            ICoord checkPos = new Coord(x, y);
+            Coord checkPos = new Coord(x, y);
             
             // Act
             var startPos = Dinglemouse.GetStart(grid);
@@ -61,7 +61,7 @@ namespace BlainePain.Test
         {
             // Arrange
             var grid = new Grid(track);
-            ICoord pos = new Coord(x, y);
+            Coord pos = new Coord(x, y);
             var direction = startDirection;
             var resultTrack = new StringBuilder();
             bool moreTrack = true;

@@ -16,7 +16,7 @@ namespace BlainePain
 
         public static bool IsTrackPiece(char checkChar) => ValidTrackPieces.Contains(checkChar);
         
-        public static ICoord GetStart(IGrid grid)
+        public static Coord GetStart(IGrid grid)
         {
             var pos = new Coord(0,0);
             char valueAtPos = grid.GetValue(pos);
@@ -38,10 +38,10 @@ namespace BlainePain
             return pos;
         }
         
-        public static Track GetTrack(ICoord start, IGrid grid)
+        public static Track GetTrack(Coord start, IGrid grid)
         {
             bool moreTrack = true;
-            ICoord pos = new Coord(start);
+            Coord pos = new Coord(start);
             var direction = Direction.East;
             var track = new Track();
 
@@ -88,16 +88,16 @@ namespace BlainePain
             }
             while (timer < limit);
 
-            //ICoord trainAGridPos = track.GetGridPosition(aTrainPos);
+            //Coord trainAGridPos = track.GetGridPosition(aTrainPos);
             //grid.PutValue(trainAGridPos, 'A');
-            //ICoord trainBGridPos = track.GetGridPosition(bTrainPos);
+            //Coord trainBGridPos = track.GetGridPosition(bTrainPos);
             //grid.PutValue(trainBGridPos, 'B');
             //grid.PrintGrid();
         
             return -1;
         }
 
-        public static bool UpdatePositionAndDirection(IGrid grid, ref ICoord pos, ref Direction direction)
+        public static bool UpdatePositionAndDirection(IGrid grid, ref Coord pos, ref Direction direction)
         {
             char gridVal;
             bool movedDown = false;

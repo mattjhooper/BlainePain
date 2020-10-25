@@ -39,7 +39,7 @@ namespace BlainePain.Rail
             foreach(char c in trainStr.ToCharArray())
             {
                 trackPos = trackPos == track.TrackLength ? 0 : trackPos;
-                ICoord gridPos = track.GetGridPosition(trackPos);
+                Coord gridPos = track.GetGridPosition(trackPos);
                 grid.PutValue(gridPos, c);
                 trackPos++;
             }
@@ -72,12 +72,12 @@ namespace BlainePain.Rail
         public static bool IsCollision(Train trainA, Train trainB, Track track)
         {
             int trackPos = trainA.TrainTrackPosition;
-            var trainAPositions = new HashSet<ICoord>();
+            var trainAPositions = new HashSet<Coord>();
 
             foreach(char c in trainA.TrainString.ToCharArray())
             {
                 trackPos = trackPos == track.TrackLength ? 0 : trackPos;
-                ICoord gridPos = track.GetGridPosition(trackPos);
+                Coord gridPos = track.GetGridPosition(trackPos);
                 trainAPositions.Add(gridPos);
                 trackPos++;
             } 
@@ -86,7 +86,7 @@ namespace BlainePain.Rail
             foreach(char c in trainB.TrainString.ToCharArray())
             {
                 trackPos = trackPos == track.TrackLength ? 0 : trackPos;
-                ICoord gridPos = track.GetGridPosition(trackPos);
+                Coord gridPos = track.GetGridPosition(trackPos);
                 if (trainAPositions.Contains(gridPos))
                     return true;
                 trackPos++;
