@@ -5,21 +5,6 @@ using BlainePain.Geometry;
 
 namespace BlainePain
 {
-    public enum Direction
-    {
-        North,
-        Northeast,
-        East,
-        Southeast,
-        South,
-        Southwest,
-        West,
-        Northwest
-
-    }
-
-    
-
     class Program
     {
         static int Main(string[] args)

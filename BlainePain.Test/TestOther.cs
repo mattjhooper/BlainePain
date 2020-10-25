@@ -1,6 +1,7 @@
 using System;
 using Xunit;
 using BlainePain.Geometry;
+using BlainePain.Navigation;
 using System.Text;
 using FluentAssertions;
 
