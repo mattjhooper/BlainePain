@@ -10,5 +10,7 @@ namespace BlainePain.Geometry
         void PutValue(Coord pos, char value);
 
         bool IsMaxExtent(Coord pos);
+
+        bool IsInGrid (Coord pos);
     }
 }
