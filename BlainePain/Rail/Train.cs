@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using BlainePain.Geometry;
 
 namespace BlainePain.Rail
@@ -22,6 +23,8 @@ namespace BlainePain.Rail
         public bool IsClockwise => isClockwise;
 
         public int NoOfCarriages => TrainString.Length - 1;
+
+        public int TimeRemainingAtStation { get; private set; }
         
         public Train(string trainStr, int startPos, Track track)
         {
@@ -31,12 +34,71 @@ namespace BlainePain.Rail
             this.TrainGridPosition = track.GetGridPosition(TrainTrackPosition);
             this.isExpress = trainStr.ToLower()[0] == 'x';
             this.isClockwise = trainStr.ToLower()[0] == trainStr[0];
+            this.TimeRemainingAtStation = 0;
 
         }
 
         public void AddToGrid(IGrid grid)
         {
-            throw new System.NotImplementedException();
+            int trackPos = TrainTrackPosition;
+            foreach(char c in trainStr.ToCharArray())
+            {
+                trackPos = trackPos == track.TrackLength ? 0 : trackPos;
+                ICoord gridPos = track.GetGridPosition(trackPos);
+                grid.PutValue(gridPos, c);
+                trackPos++;
+            }
+        }
+
+        public void Move()
+        {
+            if (TimeRemainingAtStation > 0)
+            {
+                TimeRemainingAtStation--;
+                return;
+            }
+
+            if (IsClockwise)
+            {
+               TrainTrackPosition = TrainTrackPosition == track.TrackLength - 1 ? 0 : TrainTrackPosition + 1;
+            }
+            else 
+            {
+               TrainTrackPosition = TrainTrackPosition == 0 ? track.TrackLength - 1: TrainTrackPosition - 1;
+            }
+            
+            TrainGridPosition = track.GetGridPosition(TrainTrackPosition);
+            var charAtGridPos = track.GetTrackPiece(TrainTrackPosition);
+
+            if (charAtGridPos == 'S' && !IsExpress)
+                TimeRemainingAtStation = NoOfCarriages;
+
+        }
+
+        public static bool IsCollision(Train trainA, Train trainB, Track track)
+        {
+            int trackPos = trainA.TrainTrackPosition;
+            var trainAPositions = new HashSet<ICoord>();
+
+            foreach(char c in trainA.TrainString.ToCharArray())
+            {
+                trackPos = trackPos == track.TrackLength ? 0 : trackPos;
+                ICoord gridPos = track.GetGridPosition(trackPos);
+                trainAPositions.Add(gridPos);
+                trackPos++;
+            } 
+
+            trackPos = trainB.TrainTrackPosition;
+            foreach(char c in trainB.TrainString.ToCharArray())
+            {
+                trackPos = trackPos == track.TrackLength ? 0 : trackPos;
+                ICoord gridPos = track.GetGridPosition(trackPos);
+                if (trainAPositions.Contains(gridPos))
+                    return true;
+                trackPos++;
+            } 
+
+            return false;
         }
     }
 }

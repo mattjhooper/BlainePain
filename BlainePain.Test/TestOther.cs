@@ -2,9 +2,31 @@ using System;
 using Xunit;
 using BlainePain.Geometry;
 using System.Text;
+using FluentAssertions;
 
 namespace BlainePain.Test
 {
+    public class TestGetStart
+    {
+        [Theory]
+        [InlineData("----------", 0, 0)]
+        [InlineData("|\n|\n|", 0, 0)]
+        [InlineData("  /\n /\n/", 2, 0)]
+        [InlineData("\n--", 0, 1)]
+        public void CanFindStartChar(string track, int x, int y)
+        {
+            // Arrange 
+            var grid = new Grid(track);
+            ICoord checkPos = new Coord(x, y);
+            
+            // Act
+            var startPos = Dinglemouse.GetStart(grid);
+
+            // Assert
+            startPos.Should().Be(checkPos);
+        }
+    }
+    
     public class TestFindNext
     {
         [Theory]
@@ -56,7 +78,8 @@ namespace BlainePain.Test
             } while (moreTrack && i < 20);
             
             // Assert
-            Assert.Equal(desiredResult, resultTrack.ToString());            
+            //Assert.Equal(desiredResult, resultTrack.ToString()); 
+            resultTrack.ToString().Should().Be(desiredResult);
         }
     }
 }

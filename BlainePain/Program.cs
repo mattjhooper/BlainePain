@@ -22,10 +22,13 @@ namespace BlainePain
 
     class Program
     {
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
             string track = System.IO.File.ReadAllText(@"track.txt");           
-            Dinglemouse.TrainCrash(track, "Aaaa", 147, "Bbbbbbbbbbb", 288, 1000);
+            int collideCounter;
+            collideCounter = Dinglemouse.TrainCrash(track, "Aaaa", 147, "Bbbbbbbbbbb", 288, 1000);
+            //collideCounter = Dinglemouse.TrainCrash(track, "Aaaa", 9, "Xxx", 2, 500);
+            return collideCounter;
             // // Console.Write(text);
             // Thread.Sleep(1000);
             // Console.Clear();

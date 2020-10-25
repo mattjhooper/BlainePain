@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using System.Text;
+using System.Threading;
 using BlainePain.Geometry;
 using BlainePain.Rail;
 
@@ -10,12 +12,15 @@ namespace BlainePain
         // =======================================
         // Blaine is a pain, and that is the truth
         // =======================================
+        public static readonly char[] ValidTrackPieces = new char[] {'-', '|', '/', '\\', '+', 'X', 'S'};
+
+        public static bool IsTrackPiece(char checkChar) => ValidTrackPieces.Contains(checkChar);
         
         public static ICoord GetStart(IGrid grid)
         {
             var pos = new Coord(0,0);
             char valueAtPos = grid.GetValue(pos);
-            bool keepChecking = valueAtPos == ' ' && !grid.IsMaxExtent(pos);
+            bool keepChecking = !IsTrackPiece(valueAtPos) && !grid.IsMaxExtent(pos);
             while (keepChecking)
             {
                 if (pos.x < grid.MaxX)
@@ -28,7 +33,7 @@ namespace BlainePain
                     pos = new Coord(0, pos.y);
                 }                
                 valueAtPos = grid.GetValue(pos);
-                keepChecking = valueAtPos == ' ' && !grid.IsMaxExtent(pos);                    
+                keepChecking = !IsTrackPiece(valueAtPos) && !grid.IsMaxExtent(pos);                    
             }
             return pos;
         }
@@ -58,15 +63,38 @@ namespace BlainePain
             grid.PrintGrid();
 
             var start = GetStart(grid);
-            var track = GetTrack(start, grid);
+            var track = GetTrack(new Coord(start), grid);
 
-            ICoord trainAGridPos = track.GetGridPosition(aTrainPos);
-            grid.PutValue(trainAGridPos, 'A');
-            ICoord trainBGridPos = track.GetGridPosition(bTrainPos);
-            grid.PutValue(trainBGridPos, 'B');
-            grid.PrintGrid();
+            Console.WriteLine($"Track has {track.TrackLength} pieces.");
+
+            //Console.Clear(); 
+
+            var trainA = new Train(aTrain, aTrainPos, track);
+            var trainB = new Train(bTrain, bTrainPos, track);
+
+            int timer = 0;
+            do
+            {
+                if (Train.IsCollision(trainA, trainB, track))
+                    return timer;                
+                track.AddToGrid(grid);
+                trainA.AddToGrid(grid);
+                trainB.AddToGrid(grid);
+                grid.PrintGrid();
+                Thread.Sleep(100);
+                trainA.Move();
+                trainB.Move();
+                timer++;
+            }
+            while (timer < limit);
+
+            //ICoord trainAGridPos = track.GetGridPosition(aTrainPos);
+            //grid.PutValue(trainAGridPos, 'A');
+            //ICoord trainBGridPos = track.GetGridPosition(bTrainPos);
+            //grid.PutValue(trainBGridPos, 'B');
+            //grid.PrintGrid();
         
-            return 0;
+            return -1;
         }
 
         public static bool UpdatePositionAndDirection(IGrid grid, ref ICoord pos, ref Direction direction)
