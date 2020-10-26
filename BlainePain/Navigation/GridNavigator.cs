@@ -16,7 +16,8 @@ namespace BlainePain.Navigation
                 Direction.Northeast => new Coord(startPos.x + 1, startPos.y - 1),
                 Direction.Southeast => new Coord(startPos.x + 1, startPos.y + 1),
                 Direction.Northwest => new Coord(startPos.x - 1, startPos.y - 1),
-                Direction.Southwest => new Coord(startPos.x - 1, startPos.y + 1),                
+                Direction.Southwest => new Coord(startPos.x - 1, startPos.y + 1), 
+                _   => throw new InvalidOperationException($"Invalid Direction specified: [{direction}]."),               
             };
 
             if (! grid.IsInGrid(newPos))
