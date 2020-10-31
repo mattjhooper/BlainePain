@@ -2,6 +2,7 @@ using System;
 using Xunit;
 using BlainePain.Geometry;
 using BlainePain.Rail;
+using FluentAssertions;
 
 
 namespace BlainePain.Test
@@ -51,6 +52,17 @@ namespace BlainePain.Test
             // Assert
             Assert.True(sit.IsExpress);            
 
+        }
+
+        [Theory]
+        [InlineData("xxxxX")]
+        [InlineData("Xxxxx")]
+        public void IsTrainString(string trainStr)
+        {
+            // Act            
+            // Assert
+            // Arrange
+            new Train(trainStr, 2, track).TrainString.Should().Be("Xxxxx");           
         }
 
         [Theory]

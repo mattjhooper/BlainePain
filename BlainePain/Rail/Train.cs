@@ -10,16 +10,16 @@ namespace BlainePain.Rail
         private readonly bool isExpress;
 
         private readonly bool isClockwise;
-        private readonly string trainStr;
+        private readonly char[] train;
 
         public int TrainTrackPosition { get; private set; }
-        public string TrainString => trainStr;
+        public string TrainString => new string(train);
 
         public bool IsExpress => isExpress;
 
         public bool IsClockwise => isClockwise;
 
-        public int NoOfCarriages => TrainString.Length - 1;
+        public int NoOfCarriages => train.Length - 1;
 
         public int TimeRemainingAtStation { get; private set; }
         
@@ -27,9 +27,13 @@ namespace BlainePain.Rail
         {
             this.track = track;
             this.TrainTrackPosition = startPos;
-            this.trainStr = trainStr;
-            this.isExpress = trainStr.ToLower()[0] == 'x';
+            this.train = trainStr.ToCharArray();
             this.isClockwise = trainStr.ToLower()[0] == trainStr[0];
+
+            if (this.isClockwise)
+                Array.Reverse (this.train);
+
+            this.isExpress = train[0] == 'X';
             this.TimeRemainingAtStation = 0;
 
         }
@@ -37,12 +41,8 @@ namespace BlainePain.Rail
         public void AddToGrid(IGrid grid)
         {
             int trackPos = TrainTrackPosition;
-            var t = trainStr.ToCharArray();
-
-            if (IsClockwise)
-                Array.Reverse (t);
-
-            foreach(char c in t)
+            
+            foreach(char c in train)
             {
                 Coord gridPos = track.GetGridPosition(trackPos);
                 grid.PutValue(gridPos, c);
@@ -69,30 +69,32 @@ namespace BlainePain.Rail
 
         }
 
-        public static bool IsCollision(Train trainA, Train trainB, Track track)
+        private static bool HasDuplicatePosition(HashSet<Coord> positions, Train t, Track track)
         {
-            int trackPos = trainA.TrainTrackPosition;
-            var trainAPositions = new HashSet<Coord>();
-
-            foreach(char c in trainA.TrainString.ToCharArray())
+            int trackPos = t.TrainTrackPosition;
+            foreach(char c in t.train)
             {
                 Coord gridPos = track.GetGridPosition(trackPos);
-                trainAPositions.Add(gridPos);
-                // have to reverse direction as drawing the train so the next position is opposite of the train direction
-                trackPos = track.GetNextTrackPosition(trackPos, !trainA.IsClockwise);                                
-            } 
-
-            trackPos = trainB.TrainTrackPosition;
-            foreach(char c in trainB.TrainString.ToCharArray())
-            {
-                Coord gridPos = track.GetGridPosition(trackPos);
-                if (trainAPositions.Contains(gridPos))
+                if (!positions.Add(gridPos))
                     return true;
+
                 // have to reverse direction as drawing the train so the next position is opposite of the train direction
-                trackPos = track.GetNextTrackPosition(trackPos, !trainB.IsClockwise); 
+                trackPos = track.GetNextTrackPosition(trackPos, !t.IsClockwise);                                
             } 
 
             return false;
+        }
+
+        public static bool IsCollision(Train trainA, Train trainB, Track track)
+        {
+            var trainPositions = new HashSet<Coord>();
+            
+            bool isCollision = HasDuplicatePosition(trainPositions, trainA, track);
+
+            if (!isCollision)
+               isCollision = HasDuplicatePosition(trainPositions, trainB, track);
+
+            return isCollision;
         }
     }
 }
