@@ -13,7 +13,7 @@ namespace BlainePain.Test
         {
             IGrid grid = new Grid("/-------\\\n|       |\n|       |\n\\-------/\n");
             Coord start = Dinglemouse.GetStart(grid);
-            track = Dinglemouse.GetTrack(start, grid);
+            track = TrackBuilder.GetTrack(start, grid);
         }
         [Fact]
         public void IsClockwise()

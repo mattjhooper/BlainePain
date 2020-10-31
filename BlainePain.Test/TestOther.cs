@@ -4,6 +4,7 @@ using BlainePain.Geometry;
 using BlainePain.Navigation;
 using System.Text;
 using FluentAssertions;
+using BlainePain.Rail;
 
 namespace BlainePain.Test
 {
@@ -43,7 +44,7 @@ namespace BlainePain.Test
             Coord pos = new Coord(x, y);
             
             // Act
-            var track = Dinglemouse.GetTrack(pos, grid);
+            var track = TrackBuilder.GetTrack(pos, grid);
 
             // Assert
             track.ToString().Should().Be(desiredResult);
@@ -93,7 +94,7 @@ namespace BlainePain.Test
             {
                 char piece = grid.GetValue(pos);
                 resultTrack.Append(piece);
-                var res = Dinglemouse.GetNextTrackPiece(nav, grid, pos, direction);
+                var res = TrackBuilder.GetNextTrackPiece(nav, grid, pos, direction);
                 moreTrack = res.Found;
                 pos = res.NextPos;
                 direction = res.NextDir;
