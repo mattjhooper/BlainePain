@@ -15,6 +15,7 @@ namespace BlainePain.Test.TestDinglemouse
             tracks.Add(System.IO.File.ReadAllText(@"Tracks\track0.txt"));
             tracks.Add(System.IO.File.ReadAllText(@"Tracks\track1.txt"));
             tracks.Add(System.IO.File.ReadAllText(@"Tracks\track2.txt"));
+            tracks.Add(System.IO.File.ReadAllText(@"Tracks\track3.txt"));
         }
 
         [Fact]
@@ -53,6 +54,19 @@ namespace BlainePain.Test.TestDinglemouse
 
             // Assert
             crashTime.Should().Be(157);
+
+        }
+
+        [Fact]
+        public void CrashMisc()
+        {
+            // Arrange
+            
+            // Act
+            int crashTime = Dinglemouse.TrainCrash(tracks[3], "Eee", 10, "aaA", 20, 100);
+
+            // Assert
+            crashTime.Should().Be(22);
 
         }
     }
