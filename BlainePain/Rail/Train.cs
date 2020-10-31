@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using BlainePain.Geometry;
 
@@ -36,12 +37,18 @@ namespace BlainePain.Rail
         public void AddToGrid(IGrid grid)
         {
             int trackPos = TrainTrackPosition;
-            foreach(char c in trainStr.ToCharArray())
+            var t = trainStr.ToCharArray();
+
+            if (IsClockwise)
+                Array.Reverse (t);
+
+            foreach(char c in t)
             {
-                trackPos = trackPos == track.TrackLength ? 0 : trackPos;
                 Coord gridPos = track.GetGridPosition(trackPos);
                 grid.PutValue(gridPos, c);
-                trackPos++;
+
+                // have to reverse direction as drawing the train so the next position is opposite of the train direction
+                trackPos = track.GetNextTrackPosition(trackPos, !IsClockwise);
             }
         }
 
@@ -53,15 +60,8 @@ namespace BlainePain.Rail
                 return;
             }
 
-            if (IsClockwise)
-            {
-               TrainTrackPosition = TrainTrackPosition == track.TrackLength - 1 ? 0 : TrainTrackPosition + 1;
-            }
-            else 
-            {
-               TrainTrackPosition = TrainTrackPosition == 0 ? track.TrackLength - 1: TrainTrackPosition - 1;
-            }
-            
+            TrainTrackPosition = track.GetNextTrackPosition(TrainTrackPosition, IsClockwise);
+
             var charAtGridPos = track.GetTrackPiece(TrainTrackPosition);
 
             if (charAtGridPos == 'S' && !IsExpress)
@@ -76,20 +76,20 @@ namespace BlainePain.Rail
 
             foreach(char c in trainA.TrainString.ToCharArray())
             {
-                trackPos = trackPos == track.TrackLength ? 0 : trackPos;
                 Coord gridPos = track.GetGridPosition(trackPos);
                 trainAPositions.Add(gridPos);
-                trackPos++;
+                // have to reverse direction as drawing the train so the next position is opposite of the train direction
+                trackPos = track.GetNextTrackPosition(trackPos, !trainA.IsClockwise);                                
             } 
 
             trackPos = trainB.TrainTrackPosition;
             foreach(char c in trainB.TrainString.ToCharArray())
             {
-                trackPos = trackPos == track.TrackLength ? 0 : trackPos;
                 Coord gridPos = track.GetGridPosition(trackPos);
                 if (trainAPositions.Contains(gridPos))
                     return true;
-                trackPos++;
+                // have to reverse direction as drawing the train so the next position is opposite of the train direction
+                trackPos = track.GetNextTrackPosition(trackPos, !trainB.IsClockwise); 
             } 
 
             return false;

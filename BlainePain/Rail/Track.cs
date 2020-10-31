@@ -8,6 +8,12 @@ namespace BlainePain.Rail
     public class Track : IGridable
     {
         private readonly List<(Coord pos, char val)> trackPieces;
+
+        private void CheckTrackPosition(int trackPosition)
+        {
+            if (trackPosition >= TrackLength)
+                throw new InvalidOperationException($"Invalid Track Position specified: [{trackPosition}].");
+        }
         
         public int TrackLength => trackPieces.Count;
 
@@ -24,13 +30,25 @@ namespace BlainePain.Rail
 
         public Coord GetGridPosition(int trackPosition)
         {
+            CheckTrackPosition(trackPosition);
             return trackPieces[trackPosition].pos;
+        }
+        public int GetNextTrackPosition(int trackPosition, bool isClockwise)
+        {
+            CheckTrackPosition(trackPosition);            
+
+            if (isClockwise)
+                return trackPosition == TrackLength - 1? 0 : ++trackPosition;
+            else
+                return trackPosition == 0 ? TrackLength - 1 : --trackPosition;                
         }
 
         public char GetTrackPiece(int trackPosition)
         {
+            CheckTrackPosition(trackPosition);
             return trackPieces[trackPosition].val;
         }
+
 
         public void AddToGrid(IGrid grid)
         {
