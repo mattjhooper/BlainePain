@@ -8,66 +8,6 @@ namespace BlainePain.Test
     public class TestCoord
     {
         [Fact]
-        public void CoordMovesUp()
-        {
-            // Arrange
-            var pos = new Coord(1, 1);
-
-            // Act
-            pos.MoveUp(); 
-
-            // Assert
-            Assert.Equal(1, pos.x);
-            Assert.Equal(0, pos.y);
-
-        }
-
-        [Fact]
-        public void CoordMovesDown()
-        {
-            // Arrange
-            var pos = new Coord(1, 1);
-
-            // Act
-            pos.MoveDown(); 
-
-            // Assert
-            Assert.Equal(1, pos.x);
-            Assert.Equal(2, pos.y);
-
-        }
-
-        [Fact]
-        public void CoordMovesLeft()
-        {
-            // Arrange
-            var pos = new Coord(1, 1);
-
-            // Act
-            pos.MoveLeft(); 
-
-            // Assert
-            Assert.Equal(0, pos.x);
-            Assert.Equal(1, pos.y);
-
-        }
-
-        [Fact]
-        public void CoordMovesRight()
-        {
-            // Arrange
-            var pos = new Coord(1, 1);
-
-            // Act
-            pos.MoveRight(); 
-
-            // Assert
-            Assert.Equal(2, pos.x);
-            Assert.Equal(1, pos.y);
-
-        }
-
-        [Fact]
         public void Pos1EqualsPos2()
         {
             Coord pos1 = new Coord(1,2);

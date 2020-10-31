@@ -15,36 +15,6 @@ namespace BlainePain.Geometry
 
         public Coord(Coord coord) : this(coord.x, coord.y) {}            
 
-        public Coord MoveUp()
-        {
-            y--;
-            return this; 
-        } 
-
-        public Coord MoveDown()
-        { 
-            y++; 
-            return this; 
-        }
-        
-        public Coord MoveLeft()
-        {
-            x--;
-            return this;
-        }
-        public Coord MoveRight() 
-        {
-            x++;           
-            return this;
-        }
-
-        public Coord MoveTo(Coord newPosition) 
-        {
-            x = newPosition.x;
-            y = newPosition.y;      
-            return this;
-        }
-
         public override bool Equals (Object obj)
         {
             if ((obj == null) || ! this.GetType().Equals(obj.GetType()))
