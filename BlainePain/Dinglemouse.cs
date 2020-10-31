@@ -23,7 +23,7 @@ namespace BlainePain
             return res.NewPosition;        
         }
         
-        public static int TrainCrash(string trackString, string aTrain, int aTrainPos, string bTrain, int bTrainPos, int limit)
+        public static int TrainCrash(string trackString, string aTrain, int aTrainPos, string bTrain, int bTrainPos, int limit, bool visualise = false)
         {
             Console.WriteLine($"aTrain: {aTrain}. aTrainPos: {aTrainPos}. bTrain: {bTrain}. bTrainPos: {bTrainPos}. Limit {limit}.");
             var grid = new Grid(trackString);
@@ -38,16 +38,25 @@ namespace BlainePain
             int timer = 0;
             do
             {
+                if (visualise)
+                {               
+                    track.AddToGrid(grid);
+                    trainA.AddToGrid(grid);
+                    trainB.AddToGrid(grid);
+                    grid.PrintGrid();
+                    if (timer == 0)
+                    {
+                        Thread.Sleep(1900);
+                    }                    
+                    Thread.Sleep(100);
+                }
+                
                 if (Train.IsCollision(trainA, trainB, track))
                 {
                     Console.WriteLine($"Collision at time {timer}.");
                     return timer;                
-                }                
-                // track.AddToGrid(grid);
-                // trainA.AddToGrid(grid);
-                // trainB.AddToGrid(grid);
-                // grid.PrintGrid();
-                // Thread.Sleep(100);
+                } 
+                
                 trainA.Move();
                 trainB.Move();
                 timer++;
