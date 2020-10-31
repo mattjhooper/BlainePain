@@ -5,6 +5,8 @@ namespace BlainePain.Geometry
         int MaxX { get; }
         int MaxY { get; }
         void PrintGrid();
+
+        void ClearGrid();
         
         char GetValue(Coord pos);
         void PutValue(Coord pos, char value);

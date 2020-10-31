@@ -35,6 +35,8 @@ namespace BlainePain
             var trainA = new Train(aTrain, aTrainPos, track);
             var trainB = new Train(bTrain, bTrainPos, track);
 
+            grid.ClearGrid();
+            
             int timer = 0;
             do
             {

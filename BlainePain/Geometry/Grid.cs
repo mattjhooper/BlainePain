@@ -42,6 +42,14 @@ namespace BlainePain.Geometry
             }
         }
 
+        public void ClearGrid()
+        {
+            for (int y = 0; y <= MaxY; y++)
+            {
+                grid[y] = new string(' ', grid[y].Length);
+            }
+        }
+
         public void PutValue(Coord pos, char value)
         {
             if (!IsInGrid(pos))
