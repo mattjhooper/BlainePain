@@ -4,9 +4,9 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
-  <ItemGroup Condition="'$(RuntimeIdentifier)' == 'win-x86'  Or '$(RuntimeIdentifier)' == 'win-x64'">
-    <None Update="track.txt">
+  <ItemGroup>
+    <None Include="Tracks\**">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    </ItemGroup>
+  </ItemGroup>
 </Project>

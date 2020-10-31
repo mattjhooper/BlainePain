@@ -25,7 +25,7 @@ namespace BlainePain
         
         public static int TrainCrash(string trackString, string aTrain, int aTrainPos, string bTrain, int bTrainPos, int limit)
         {
-            Console.WriteLine($"aTrain: {aTrain}. aTrainPos: {aTrain}. bTrain: {bTrain}. bTrainPos: {bTrainPos}. Limit {limit}.");
+            Console.WriteLine($"aTrain: {aTrain}. aTrainPos: {aTrainPos}. bTrain: {bTrain}. bTrainPos: {bTrainPos}. Limit {limit}.");
             var grid = new Grid(trackString);
             grid.PrintGrid();
 
@@ -39,7 +39,10 @@ namespace BlainePain
             do
             {
                 if (Train.IsCollision(trainA, trainB, track))
+                {
+                    Console.WriteLine($"Collision at time {timer}.");
                     return timer;                
+                }                
                 // track.AddToGrid(grid);
                 // trainA.AddToGrid(grid);
                 // trainB.AddToGrid(grid);
@@ -50,7 +53,8 @@ namespace BlainePain
                 timer++;
             }
             while (timer < limit);
-
+            
+            Console.WriteLine($"No Collision before {timer}.");
             return -1;
         }
     }
