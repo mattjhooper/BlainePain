@@ -13,30 +13,149 @@ namespace BlainePain
         // =======================================
         // Blaine is a pain, and that is the truth
         // =======================================
-        public static readonly char[] ValidTrackPieces = new char[] {'-', '|', '/', '\\', '+', 'X', 'S'};
-
-        public static bool IsTrackPiece(char checkChar) => ValidTrackPieces.Contains(checkChar);
-        
         public static Coord GetStart(IGrid grid)
+        {            
+            var res = new GridNavigator().FindFirst(grid, c => Track.IsTrackPiece(c));
+
+            if (!res.IsInGrid)
+                throw new InvalidOperationException($"Grid Start could not be found.");
+                
+            return res.NewPosition;        
+        }
+
+        public static Direction checkStraight(char checkVal, Direction defaultDir, Direction option1, Direction option2 )
         {
-            var pos = new Coord(0,0);
-            char valueAtPos = grid.GetValue(pos);
-            bool keepChecking = !IsTrackPiece(valueAtPos) && !grid.IsMaxExtent(pos);
-            while (keepChecking)
+            return checkVal switch
             {
-                if (pos.x < grid.MaxX)
-                {
-                    pos.MoveRight();
-                }
-                else if (pos.y < grid.MaxY)
-                {
-                    pos.MoveDown();
-                    pos = new Coord(0, pos.y);
-                }                
-                valueAtPos = grid.GetValue(pos);
-                keepChecking = !IsTrackPiece(valueAtPos) && !grid.IsMaxExtent(pos);                    
+                '/' => option1,
+                '\\' => option2,
+                _  => defaultDir,               
+            };
+        }
+
+        public static (bool Found, Coord NextPos, Direction NextDir) GetNextTrackPiece(IGridNavigator nav, IGrid grid, Coord pos, Direction dir)
+        {           
+            var res = nav.CheckDirection(grid, pos, dir);
+            bool found = res.IsInGrid && Track.IsTrackPiece(res.NewValue);
+            Coord nextPos = res.NewPosition;
+            var nextDir = dir;
+            NavigationResult check1;
+            NavigationResult check2;
+            
+            switch (dir)
+            {
+                case Direction.North:
+                    nextDir = res.NewValue switch
+                    {
+                        '/' => Direction.Northeast,
+                        '\\' => Direction.Northwest,
+                        _  => Direction.North,               
+                    };                                  
+                    break;
+                case Direction.South:
+                    nextDir = res.NewValue switch
+                    {
+                        '/' => Direction.Southwest,
+                        '\\' => Direction.Southeast,
+                        _  => Direction.South,               
+                    };                      
+                    break;
+                case Direction.East:
+                    nextDir = res.NewValue switch
+                    {
+                        '/' => Direction.Northeast,
+                        '\\' => Direction.Southeast,
+                        _  => Direction.East,               
+                    };                      
+                    break;  
+                case Direction.West:
+                    nextDir = res.NewValue switch
+                    {
+                        '/' => Direction.Southwest,
+                        '\\' => Direction.Northwest,
+                        _  => Direction.West,               
+                    };                    
+                    break;    
+                
+                case Direction.Northwest:
+                    check1 = nav.CheckDirection(grid, pos, Direction.North);
+                    check2 = nav.CheckDirection(grid, pos, Direction.West);
+
+                    if (!found || (check1.IsInGrid && check1.NewValue == '+'))
+                    {
+                        found = check1.IsInGrid && Track.IsTrackPiece(check1.NewValue);
+                        nextPos = check1.NewPosition;
+                        nextDir = Direction.North;
+                    }
+                    if (!found || (check2.IsInGrid && check2.NewValue == '+'))
+                    {
+                        found = check2.IsInGrid && Track.IsTrackPiece(check2.NewValue);
+                        nextPos = check2.NewPosition;
+                        nextDir = Direction.West;
+                    }
+                    
+                    break;  
+                    
+                case Direction.Northeast:
+                    check1 = nav.CheckDirection(grid, pos, Direction.North);
+                    check2 = nav.CheckDirection(grid, pos, Direction.East);
+
+                    if (!found || (check1.IsInGrid && check1.NewValue == '+'))
+                    {
+                        found = check1.IsInGrid && Track.IsTrackPiece(check1.NewValue);
+                        nextPos = check1.NewPosition;
+                        nextDir = Direction.North;
+                    }
+                    if (!found || (check2.IsInGrid && check2.NewValue == '+'))
+                    {
+                        found = check2.IsInGrid && Track.IsTrackPiece(check2.NewValue);
+                        nextPos = check2.NewPosition;
+                        nextDir = Direction.East;
+                    }
+                    
+                    break;    
+                case Direction.Southeast:
+                    check1 = nav.CheckDirection(grid, pos, Direction.South);
+                    check2 = nav.CheckDirection(grid, pos, Direction.East);
+
+                    if (!found || (check1.IsInGrid && check1.NewValue == '+'))
+                    {
+                        found = check1.IsInGrid && Track.IsTrackPiece(check1.NewValue);
+                        nextPos = check1.NewPosition;
+                        nextDir = Direction.South;
+                    }
+                    if (!found || (check2.IsInGrid && check2.NewValue == '+'))
+                    {
+                        found = check2.IsInGrid && Track.IsTrackPiece(check2.NewValue);
+                        nextPos = check2.NewPosition;
+                        nextDir = Direction.East;
+                    }
+                    
+                    break; 
+                case Direction.Southwest:
+                    check1 = nav.CheckDirection(grid, pos, Direction.South);
+                    check2 = nav.CheckDirection(grid, pos, Direction.West);
+
+                    if (!found || (check1.IsInGrid && check1.NewValue == '+'))
+                    {
+                        found = check1.IsInGrid && Track.IsTrackPiece(check1.NewValue);
+                        nextPos = check1.NewPosition;
+                        nextDir = Direction.South;
+                    }
+                    if (!found || (check2.IsInGrid && check2.NewValue == '+'))
+                    {
+                        found = check2.IsInGrid && Track.IsTrackPiece(check2.NewValue);
+                        nextPos = check2.NewPosition;
+                        nextDir = Direction.West;
+                    }
+                    
+                    break; 
+                                        
+                default:
+                    throw new Exception("Unhandled Direction");
             }
-            return pos;
+
+            return (found, nextPos, nextDir);
         }
         
         public static Track GetTrack(Coord start, IGrid grid)
@@ -59,16 +178,12 @@ namespace BlainePain
         }
         public static int TrainCrash(string trackString, string aTrain, int aTrainPos, string bTrain, int bTrainPos, int limit)
         {
-            //Console.WriteLine($"track length: {trackString.Length}");
+            Console.WriteLine($"aTrain: {aTrain}. aTrainPos: {aTrain}. bTrain: {bTrain}. bTrainPos: {bTrainPos}. Limit {limit}.");
             var grid = new Grid(trackString);
             grid.PrintGrid();
 
             var start = GetStart(grid);
             var track = GetTrack(new Coord(start), grid);
-
-            Console.WriteLine($"Track has {track.TrackLength} pieces.");
-
-            //Console.Clear(); 
 
             var trainA = new Train(aTrain, aTrainPos, track);
             var trainB = new Train(bTrain, bTrainPos, track);
@@ -89,12 +204,6 @@ namespace BlainePain
             }
             while (timer < limit);
 
-            //Coord trainAGridPos = track.GetGridPosition(aTrainPos);
-            //grid.PutValue(trainAGridPos, 'A');
-            //Coord trainBGridPos = track.GetGridPosition(bTrainPos);
-            //grid.PutValue(trainBGridPos, 'B');
-            //grid.PrintGrid();
-        
             return -1;
         }
 
