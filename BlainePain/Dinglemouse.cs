@@ -5,6 +5,7 @@ using System.Threading;
 using BlainePain.Geometry;
 using BlainePain.Rail;
 using BlainePain.Navigation;
+using System.Collections.Generic;
 
 namespace BlainePain
 {
@@ -22,6 +23,30 @@ namespace BlainePain
                 
             return res.NewPosition;        
         }
+
+        public static void Visualise(IGrid grid, List<IGridable> gridables, bool visualise, bool firstTime)
+        {
+            if (visualise)
+            {               
+                foreach (IGridable x in gridables)
+                    x.AddToGrid(grid);
+                
+                grid.PrintGrid();
+                if (firstTime)
+                    Thread.Sleep(1000);
+                else
+                    Thread.Sleep(100);
+            }
+        }
+
+        public static List<IGridable> SetupGridables(params IGridable[] list)
+        {
+            var gridables = new List<IGridable>();
+            foreach (IGridable x in list)
+                    gridables.Add(x);
+            
+            return gridables;
+        }
         
         public static int TrainCrash(string trackString, string aTrain, int aTrainPos, string bTrain, int bTrainPos, int limit, bool visualise = false)
         {
@@ -35,24 +60,15 @@ namespace BlainePain
             var trainA = new Train(aTrain, aTrainPos, track);
             var trainB = new Train(bTrain, bTrainPos, track);
 
+            var gridables = SetupGridables(track, trainA, trainB);
+            
             grid.ClearGrid();
             
             int timer = 0;
             do
             {
-                if (visualise)
-                {               
-                    track.AddToGrid(grid);
-                    trainA.AddToGrid(grid);
-                    trainB.AddToGrid(grid);
-                    grid.PrintGrid();
-                    if (timer == 0)
-                    {
-                        Thread.Sleep(1900);
-                    }                    
-                    Thread.Sleep(100);
-                }
-                
+                Visualise(grid, gridables, visualise, timer == 0);
+
                 if (Train.IsCollision(trainA, trainB, track))
                 {
                     Console.WriteLine($"Collision at time {timer}.");
