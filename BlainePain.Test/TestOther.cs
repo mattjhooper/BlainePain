@@ -5,6 +5,7 @@ using BlainePain.Navigation;
 using System.Text;
 using FluentAssertions;
 using BlainePain.Rail;
+using BlainePain.Extensions;
 
 namespace BlainePain.Test
 {
@@ -22,7 +23,7 @@ namespace BlainePain.Test
             Coord checkPos = new Coord(x, y);
             
             // Act
-            var startPos = Dinglemouse.GetStart(grid);
+            var startPos = grid.GetStart();
 
             // Assert
             startPos.Should().Be(checkPos);

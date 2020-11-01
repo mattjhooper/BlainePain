@@ -3,7 +3,8 @@ using Xunit;
 using BlainePain.Geometry;
 using BlainePain.Rail;
 using FluentAssertions;
-
+using System.Linq;
+using BlainePain.Extensions;
 
 namespace BlainePain.Test
 {
@@ -13,7 +14,7 @@ namespace BlainePain.Test
         public TestTrain()
         {
             IGrid grid = new Grid("/-------\\\n|       |\n|       |\n\\-------/\n");
-            Coord start = Dinglemouse.GetStart(grid);
+            Coord start = grid.GetStart();
             track = TrackBuilder.GetTrack(start, grid);
         }
         [Fact]
@@ -93,6 +94,42 @@ namespace BlainePain.Test
             // Act            
             // Assert
             Assert.Equal(noOfCarriages, sit.NoOfCarriages);            
+        }
+
+        [Fact]
+        public void HasCorrectPositions()
+        {
+            var train = new Train("Aaa", 0, track);
+
+            var positions = train.Positions.ToList();
+
+            positions.Count.Should().Be(3);
+
+            positions[0].x.Should().Be(0);
+            positions[0].y.Should().Be(0);
+            positions[1].x.Should().Be(1);
+            positions[1].y.Should().Be(0);
+            positions[2].x.Should().Be(2);
+            positions[2].y.Should().Be(0);
+
+        }
+
+        [Fact]
+        public void HasCorrectPositionsClockwise()
+        {
+            var train = new Train("aaA", 0, track);
+
+            var positions = train.Positions.ToList();
+
+            positions.Count.Should().Be(3);
+
+            positions[0].x.Should().Be(0);
+            positions[0].y.Should().Be(0);
+            positions[1].x.Should().Be(0);
+            positions[1].y.Should().Be(1);
+            positions[2].x.Should().Be(0);
+            positions[2].y.Should().Be(2);
+
         }
     }
 }

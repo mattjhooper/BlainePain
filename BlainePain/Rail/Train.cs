@@ -4,7 +4,7 @@ using BlainePain.Geometry;
 
 namespace BlainePain.Rail
 {
-    public class Train : IGridable
+    public class Train : IGridable, IMoveable
     {
         private readonly Track track;
         private readonly bool isExpress;
@@ -22,7 +22,23 @@ namespace BlainePain.Rail
         public int NoOfCarriages => train.Length - 1;
 
         public int TimeRemainingAtStation { get; private set; }
-        
+
+        public IEnumerable<Coord> Positions
+        {
+            get
+            {
+                int trackPos = TrainTrackPosition;
+                foreach (char c in train)
+                {
+                    Coord gridPos = track.GetGridPosition(trackPos);
+                    yield return gridPos;
+
+                    // have to reverse direction as drawing the train so the next position is opposite of the train direction
+                    trackPos = track.GetNextTrackPosition(trackPos, !IsClockwise);
+                }
+            }
+        }
+
         public Train(string trainStr, int startPos, Track track)
         {
             this.track = track;
@@ -31,7 +47,7 @@ namespace BlainePain.Rail
             this.isClockwise = trainStr.ToLower()[0] == trainStr[0];
 
             if (this.isClockwise)
-                Array.Reverse (this.train);
+                Array.Reverse(this.train);
 
             this.isExpress = train[0] == 'X';
             this.TimeRemainingAtStation = 0;
@@ -41,8 +57,8 @@ namespace BlainePain.Rail
         public void AddToGrid(IGrid grid)
         {
             int trackPos = TrainTrackPosition;
-            
-            foreach(char c in train)
+
+            foreach (char c in train)
             {
                 Coord gridPos = track.GetGridPosition(trackPos);
                 grid.PutValue(gridPos, c);
@@ -67,34 +83,6 @@ namespace BlainePain.Rail
             if (charAtGridPos == 'S' && !IsExpress)
                 TimeRemainingAtStation = NoOfCarriages;
 
-        }
-
-        private static bool HasDuplicatePosition(HashSet<Coord> positions, Train t, Track track)
-        {
-            int trackPos = t.TrainTrackPosition;
-            foreach(char c in t.train)
-            {
-                Coord gridPos = track.GetGridPosition(trackPos);
-                if (!positions.Add(gridPos))
-                    return true;
-
-                // have to reverse direction as drawing the train so the next position is opposite of the train direction
-                trackPos = track.GetNextTrackPosition(trackPos, !t.IsClockwise);                                
-            } 
-
-            return false;
-        }
-
-        public static bool IsCollision(Train trainA, Train trainB, Track track)
-        {
-            var trainPositions = new HashSet<Coord>();
-            
-            bool isCollision = HasDuplicatePosition(trainPositions, trainA, track);
-
-            if (!isCollision)
-               isCollision = HasDuplicatePosition(trainPositions, trainB, track);
-
-            return isCollision;
-        }
+        }        
     }
 }

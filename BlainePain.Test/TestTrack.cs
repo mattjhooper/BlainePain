@@ -3,7 +3,7 @@ using Xunit;
 using BlainePain.Geometry;
 using BlainePain.Rail;
 using FluentAssertions;
-
+using BlainePain.Extensions;
 
 namespace BlainePain.Test
 {
@@ -14,7 +14,7 @@ namespace BlainePain.Test
         public TestTrack()
         {
             IGrid grid = new Grid(trackStr);
-            Coord start = Dinglemouse.GetStart(grid);
+            Coord start = grid.GetStart();
             track = TrackBuilder.GetTrack(start, grid);
         }
 
