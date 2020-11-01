@@ -33,8 +33,6 @@ namespace BlainePain.Geometry
         
         public void PrintGrid()
         {
-            //Console.Clear();  
-
             Console.SetCursorPosition(0, 0);              
             for (int y = 0; y <= MaxY; y++)
             {
@@ -44,6 +42,8 @@ namespace BlainePain.Geometry
 
         public void ClearGrid()
         {
+            Console.Clear();  
+            
             for (int y = 0; y <= MaxY; y++)
             {
                 grid[y] = new string(' ', grid[y].Length);
