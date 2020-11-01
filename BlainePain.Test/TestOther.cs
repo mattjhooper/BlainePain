@@ -36,7 +36,7 @@ namespace BlainePain.Test
         [InlineData("     |\n     |\n-----/", 0, 2, @"-----/||")]
         [InlineData("-----\\ \n     | \n     | ", 0, 0, @"-----\||")]
         [InlineData("-----\\\n      \\-----", 0, 0, @"-----\\-----")]
-        [InlineData("   |\n---+---\n   |", 0, 1, @"---+---")]
+        [InlineData("   |\n---+---\n   |", 0, 1, @"---+---")]        
         public void CanGetTrack(string trackStr, int x, int y, String desiredResult)
         {
             // Arrange
@@ -78,6 +78,9 @@ namespace BlainePain.Test
         [InlineData("   /\n---+---\n   /", 3, 2, Direction.North, @"/+/")]
         [InlineData("   /\n---+---\n   /", 3, 0, Direction.Southwest, @"/+/")]
         [InlineData("   | /\n  /+/\n / |", 1, 2, Direction.Northeast, @"//+//")]
+        [InlineData("/--\\\n|  |", 3, 1, Direction.North, @"|\--/|")]
+        [InlineData("|\\-----    \n|/----\\     \n||    |    ", 6, 2, Direction.North, @"|\----/|")]
+        [InlineData("\\\n|\n|\n\\-----\n/--|", 0, 0, Direction.Southeast, @"\||\-----")]
         public void CanGetNextTrackPiece(string track, int x, int y, Direction startDirection, String desiredResult)
         {
             // Arrange
