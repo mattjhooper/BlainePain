@@ -26,8 +26,7 @@ namespace BlainePain.Rail
             bool found = res.IsInGrid && IsTrackPiece(res.NewValue);
             Coord nextPos = res.NewPosition;
             var nextDir = dir;
-            NavigationResult check1;
-            NavigationResult check2;
+            char?[] validChars;
             
             switch (dir)
             {
@@ -64,77 +63,109 @@ namespace BlainePain.Rail
                     };                    
                     break;    
                 
-                case Direction.Northwest:
-                    check1 = nav.CheckDirection(grid, pos, Direction.North);
-                    check2 = nav.CheckDirection(grid, pos, Direction.West);
+                case Direction.Northwest:  
+                    validChars = new char?[] { '\\', 'X', 'S'};
+                    if (found && validChars.Contains(res.NewValue))
+                        break;
 
-                    if (!found || (check1.IsInGrid && check1.NewValue == '+'))
+                    res = nav.CheckDirection(grid, pos, Direction.North);
+                    validChars = new char?[] { '|', '+', 'S'};
+                    if (res.IsInGrid && validChars.Contains(res.NewValue))
                     {
-                        found = check1.IsInGrid && IsTrackPiece(check1.NewValue);
-                        nextPos = check1.NewPosition;
+                        found = true;
+                        nextPos = res.NewPosition;
                         nextDir = Direction.North;
+                        break;
                     }
-                    if (!found || (check2.IsInGrid && check2.NewValue == '+'))
+
+                    res = nav.CheckDirection(grid, pos, Direction.West);
+                    validChars = new char?[] { '-', '+', 'S'};
+                    if (res.IsInGrid && validChars.Contains(res.NewValue))
                     {
-                        found = check2.IsInGrid && IsTrackPiece(check2.NewValue);
-                        nextPos = check2.NewPosition;
+                        found = true;
+                        nextPos = res.NewPosition;
                         nextDir = Direction.West;
-                    }
+                        break;
+                    }                    
                     
-                    break;  
+                    break; 
                     
                 case Direction.Northeast:
-                    check1 = nav.CheckDirection(grid, pos, Direction.North);
-                    check2 = nav.CheckDirection(grid, pos, Direction.East);
+                    validChars = new char?[] { '/', 'X', 'S'};
+                    if (found && validChars.Contains(res.NewValue))
+                        break;
 
-                    if (!found || (check1.IsInGrid && check1.NewValue == '+'))
+                    res = nav.CheckDirection(grid, pos, Direction.North);
+                    validChars = new char?[] { '|', '+', 'S'};
+                    if (res.IsInGrid && validChars.Contains(res.NewValue))
                     {
-                        found = check1.IsInGrid && IsTrackPiece(check1.NewValue);
-                        nextPos = check1.NewPosition;
+                        found = true;
+                        nextPos = res.NewPosition;
                         nextDir = Direction.North;
+                        break;
                     }
-                    if (!found || (check2.IsInGrid && check2.NewValue == '+'))
-                    {
-                        found = check2.IsInGrid && IsTrackPiece(check2.NewValue);
-                        nextPos = check2.NewPosition;
-                        nextDir = Direction.East;
-                    }
-                    
-                    break;    
-                case Direction.Southeast:
-                    check1 = nav.CheckDirection(grid, pos, Direction.South);
-                    check2 = nav.CheckDirection(grid, pos, Direction.East);
 
-                    if (!found || (check1.IsInGrid && check1.NewValue == '+'))
+                    res = nav.CheckDirection(grid, pos, Direction.East);
+                    validChars = new char?[] { '-', '+', 'S'};
+                    if (res.IsInGrid && validChars.Contains(res.NewValue))
                     {
-                        found = check1.IsInGrid && IsTrackPiece(check1.NewValue);
-                        nextPos = check1.NewPosition;
-                        nextDir = Direction.South;
-                    }
-                    if (!found || (check2.IsInGrid && check2.NewValue == '+'))
-                    {
-                        found = check2.IsInGrid && IsTrackPiece(check2.NewValue);
-                        nextPos = check2.NewPosition;
+                        found = true;
+                        nextPos = res.NewPosition;
                         nextDir = Direction.East;
+                        break;
+                    }                    
+                    
+                    break;     
+                case Direction.Southeast:
+                    validChars = new char?[] { '\\', 'X', 'S'};
+                    if (found && validChars.Contains(res.NewValue))
+                        break;
+
+                    res = nav.CheckDirection(grid, pos, Direction.South);
+                    validChars = new char?[] { '|', '+', 'S'};
+                    if (res.IsInGrid && validChars.Contains(res.NewValue))
+                    {
+                        found = true;
+                        nextPos = res.NewPosition;
+                        nextDir = Direction.South;
+                        break;
                     }
+
+                    res = nav.CheckDirection(grid, pos, Direction.East);
+                    validChars = new char?[] { '-', '+', 'S'};
+                    if (res.IsInGrid && validChars.Contains(res.NewValue))
+                    {
+                        found = true;
+                        nextPos = res.NewPosition;
+                        nextDir = Direction.East;
+                        break;
+                    }                    
                     
                     break; 
                 case Direction.Southwest:
-                    check1 = nav.CheckDirection(grid, pos, Direction.South);
-                    check2 = nav.CheckDirection(grid, pos, Direction.West);
+                    validChars = new char?[] { '/', 'X', 'S'};
+                    if (found && validChars.Contains(res.NewValue))
+                        break;
 
-                    if (!found || (check1.IsInGrid && check1.NewValue == '+'))
+                    res = nav.CheckDirection(grid, pos, Direction.South);
+                    validChars = new char?[] { '|', '+', 'S'};
+                    if (res.IsInGrid && validChars.Contains(res.NewValue))
                     {
-                        found = check1.IsInGrid && IsTrackPiece(check1.NewValue);
-                        nextPos = check1.NewPosition;
+                        found = true;
+                        nextPos = res.NewPosition;
                         nextDir = Direction.South;
+                        break;
                     }
-                    if (!found || (check2.IsInGrid && check2.NewValue == '+'))
+
+                    res = nav.CheckDirection(grid, pos, Direction.West);
+                    validChars = new char?[] { '-', '+', 'S'};
+                    if (res.IsInGrid && validChars.Contains(res.NewValue))
                     {
-                        found = check2.IsInGrid && IsTrackPiece(check2.NewValue);
-                        nextPos = check2.NewPosition;
+                        found = true;
+                        nextPos = res.NewPosition;
                         nextDir = Direction.West;
-                    }
+                        break;
+                    }                    
                     
                     break; 
                                         
