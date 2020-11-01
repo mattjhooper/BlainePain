@@ -30,6 +30,10 @@ namespace BlainePain
                     track = System.IO.File.ReadAllText($"Tracks\\track{option}.txt"); 
                     collideCounter = Dinglemouse.TrainCrash(track, "Eee", 10, "aaA", 20, 100, true);
                     break;  
+                case "3":
+                    track = System.IO.File.ReadAllText($"Tracks\\track{option}.txt"); 
+                    collideCounter = Dinglemouse.TrainCrash(track, "Eee", 10, "aaA", 20, 100, true);
+                    break;      
                 default:
                     throw new InvalidOperationException($"Invalid option: {option}.");   
 
