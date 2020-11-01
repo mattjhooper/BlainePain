@@ -63,7 +63,7 @@ namespace BlainePain
                 trainB.Move();
                 timer++;
             }
-            while (timer < limit);
+            while (timer <= limit);
             
             Console.WriteLine($"No Collision before {timer}.");
             return -1;
