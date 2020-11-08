@@ -9,7 +9,7 @@ namespace BlainePain.Extensions
 {
     public static class Extension
     {
-        public static bool IsCollision(this IMoveable[] moveables)
+        public static bool IsCollision(this IEnumerable<IMoveable> moveables)
         {
             var positions = new HashSet<Coord>();
 
@@ -21,7 +21,7 @@ namespace BlainePain.Extensions
             return false;
         }
 
-        public static void MoveAll(this IMoveable[] moveables)
+        public static void MoveAll(this IEnumerable<IMoveable> moveables)
         {
             foreach(IMoveable moveable in moveables)
                 moveable.Move();

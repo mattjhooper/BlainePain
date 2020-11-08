@@ -2,6 +2,7 @@ using System;
 using BlainePain.Geometry;
 using BlainePain.Rail;
 using BlainePain.Extensions;
+using System.Linq;
 
 namespace BlainePain
 {
@@ -23,7 +24,7 @@ namespace BlainePain
             var trainB = new Train(bTrain, bTrainPos, track);
             
             var gridables = new IGridable[] {track, trainA, trainB};
-            var moveables = new IMoveable[] {trainA, trainB};
+            var moveables = gridables.OfType<IMoveable>();            
             
             grid.ClearGrid();
             
