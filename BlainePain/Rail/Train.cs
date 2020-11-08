@@ -23,6 +23,8 @@ namespace BlainePain.Rail
 
         public int TimeRemainingAtStation { get; private set; }
 
+        private bool IsAtStation => track.GetTrackPiece(TrainTrackPosition) == 'S';
+
         public IEnumerable<Coord> Positions
         {
             get
@@ -78,9 +80,7 @@ namespace BlainePain.Rail
 
             TrainTrackPosition = track.GetNextTrackPosition(TrainTrackPosition, IsClockwise);
 
-            var charAtGridPos = track.GetTrackPiece(TrainTrackPosition);
-
-            if (charAtGridPos == 'S' && !IsExpress)
+            if (IsAtStation && !IsExpress)
                 TimeRemainingAtStation = NoOfCarriages;
 
         }        
