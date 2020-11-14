@@ -32,11 +32,12 @@ namespace BlainePain.Test
 
             // Act
             var result = sit.CheckDirection(grid, startPos, direction);
+            var (x, y) = result.NewPosition;
 
             // Assert
             result.IsInGrid.Should().BeTrue();
-            result.NewPosition.x.Should().Be(expectedX);
-            result.NewPosition.y.Should().Be(expectedY);
+            x.Should().Be(expectedX);
+            y.Should().Be(expectedY);
             result.NewValue.Should().Be(expectedVal);
         }
 
@@ -52,11 +53,11 @@ namespace BlainePain.Test
 
             // Act
             var result = sit.CheckDirection(grid, startPos, direction);
-
+            var (x, y) = result.NewPosition;
             // Assert
             result.IsInGrid.Should().BeFalse();
-            result.NewPosition.x.Should().Be(expectedX);
-            result.NewPosition.y.Should().Be(expectedY);
+            x.Should().Be(expectedX);
+            y.Should().Be(expectedY);            
             result.NewValue.Should().BeNull();
         }   
 
@@ -69,10 +70,11 @@ namespace BlainePain.Test
 
             // Act
             var result = sit.CheckStartOfNextRow(grid, startPos);
+            var (x, y) = result.NewPosition;
 
             result.IsInGrid.Should().BeTrue();
-            result.NewPosition.x.Should().Be(0);
-            result.NewPosition.y.Should().Be(1);
+            x.Should().Be(0);
+            y.Should().Be(1);
             result.NewValue.Should().Be('W');
         }
 
@@ -84,10 +86,11 @@ namespace BlainePain.Test
 
             // Act
             var result = sit.FindFirst(grid, c => c == 'X');
+            var (x, y) = result.NewPosition;
 
             result.IsInGrid.Should().BeTrue();
-            result.NewPosition.x.Should().Be(1);
-            result.NewPosition.y.Should().Be(1);
+            x.Should().Be(1);
+            y.Should().Be(1);
             result.NewValue.Should().Be('X');
         }
 
@@ -99,10 +102,11 @@ namespace BlainePain.Test
 
             // Act
             var result = sit.FindFirst(grid, c => c == '-');
+            var (x, y) = result.NewPosition;
 
             result.IsInGrid.Should().BeFalse();
-            result.NewPosition.x.Should().Be(2);
-            result.NewPosition.y.Should().Be(2);
+            x.Should().Be(2);
+            y.Should().Be(2);
             result.NewValue.Should().BeNull();
         }    
 

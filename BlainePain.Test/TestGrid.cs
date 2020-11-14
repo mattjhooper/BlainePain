@@ -24,12 +24,9 @@ namespace BlainePain.Test
             var grid = new Grid(gridString);
 
             // Act
-            var maxX = grid.MaxX;
-            var maxY = grid.MaxY;
-
             // Assert
-            maxX.Should().Be(desiredX);
-            maxY.Should().Be(desiredY);
+            grid.MaxX.Should().Be(desiredX);
+            grid.MaxY.Should().Be(desiredY);
         }
 
         [Theory]

@@ -7,16 +7,17 @@ namespace BlainePain.Navigation
     {
         public NavigationResult CheckDirection(IGrid grid, Coord startPos, Direction direction)
         {
+            var (x, y) = startPos;
             Coord newPos = direction switch
             {
-                Direction.North => new Coord(startPos.x, startPos.y - 1),
-                Direction.East => new Coord(startPos.x + 1, startPos.y),
-                Direction.South => new Coord(startPos.x, startPos.y + 1),
-                Direction.West => new Coord(startPos.x - 1, startPos.y),
-                Direction.Northeast => new Coord(startPos.x + 1, startPos.y - 1),
-                Direction.Southeast => new Coord(startPos.x + 1, startPos.y + 1),
-                Direction.Northwest => new Coord(startPos.x - 1, startPos.y - 1),
-                Direction.Southwest => new Coord(startPos.x - 1, startPos.y + 1), 
+                Direction.North => startPos with { y = y - 1 },
+                Direction.East => startPos with { x = x + 1 },
+                Direction.South => startPos with { y = y + 1 },
+                Direction.West => startPos with { x = x - 1 },
+                Direction.Northeast => new Coord(x + 1, y - 1),
+                Direction.Southeast => new Coord(x + 1, y + 1),
+                Direction.Northwest => new Coord(x - 1, y - 1),
+                Direction.Southwest => new Coord(x - 1, y + 1), 
                 _   => throw new InvalidOperationException($"Invalid Direction specified: [{direction}]."),               
             };
 

@@ -134,7 +134,7 @@ namespace BlainePain.Rail
             {
                 char piece = grid.GetValue(pos);
                 if (!IsTrackPiece(piece))
-                    throw new InvalidOperationException($"Invalid Track Piece specified: {piece}. At [{pos.x},{pos.y}].");
+                    throw new InvalidOperationException($"Invalid Track Piece specified: {piece}. At {pos}.");
 
                 track.AddTrackPiece(piece, pos);
 
@@ -142,7 +142,7 @@ namespace BlainePain.Rail
                 moreTrack = res.Found;
                 pos = res.NextPos;
                 direction = res.NextDir;
-            } while (moreTrack && !pos.Equals(start));
+            } while (moreTrack && pos != start);
 
             return track;
         }
