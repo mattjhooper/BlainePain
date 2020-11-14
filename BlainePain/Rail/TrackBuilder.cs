@@ -125,7 +125,7 @@ namespace BlainePain.Rail
         public static Track GetTrack(Coord start, IGrid grid)
         {
             bool moreTrack = true;
-            Coord pos = new Coord(start);
+            Coord pos = start;
             var direction = Direction.East;
             var track = new Track();
             var nav = new GridNavigator();
@@ -136,7 +136,7 @@ namespace BlainePain.Rail
                 if (!IsTrackPiece(piece))
                     throw new InvalidOperationException($"Invalid Track Piece specified: {piece}. At [{pos.x},{pos.y}].");
 
-                track.AddTrackPiece(piece, new Coord(pos));
+                track.AddTrackPiece(piece, pos);
 
                 var res = GetNextTrackPiece(nav, grid, pos, direction);
                 moreTrack = res.Found;
