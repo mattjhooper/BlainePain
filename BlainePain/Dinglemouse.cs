@@ -20,10 +20,7 @@ namespace BlainePain
             var start = grid.GetStart();
             var track = TrackBuilder.GetTrack(start, grid);
 
-            var trainA = new Train(aTrain, aTrainPos, track);
-            var trainB = new Train(bTrain, bTrainPos, track);
-            
-            var gridables = new IGridable[] {track, trainA, trainB};
+            var gridables = new IGridable[] {track, new Train(aTrain, aTrainPos, track), new Train(bTrain, bTrainPos, track)};
             var moveables = gridables.OfType<IMoveable>();            
             
             grid.ClearGrid();
