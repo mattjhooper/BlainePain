@@ -14,10 +14,10 @@ namespace BlainePain.Navigation
                 Direction.East => startPos with { x = x + 1 },
                 Direction.South => startPos with { y = y + 1 },
                 Direction.West => startPos with { x = x - 1 },
-                Direction.Northeast => new Coord(x + 1, y - 1),
-                Direction.Southeast => new Coord(x + 1, y + 1),
-                Direction.Northwest => new Coord(x - 1, y - 1),
-                Direction.Southwest => new Coord(x - 1, y + 1), 
+                Direction.Northeast => new (x + 1, y - 1),
+                Direction.Southeast => new (x + 1, y + 1),
+                Direction.Northwest => new (x - 1, y - 1),
+                Direction.Southwest => new (x - 1, y + 1), 
                 _   => throw new InvalidOperationException($"Invalid Direction specified: [{direction}]."),               
             };
 
