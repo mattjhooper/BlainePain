@@ -43,7 +43,7 @@ namespace BlainePain.Test
         public void GridIsInGrid(int checkX, int checkY, bool checkResult)
         {
             // Arrange
-            var checkPos = new Coord(checkX, checkY);
+            Coord checkPos = new (checkX, checkY);
 
             // Act
             var isInGrid = grid.IsInGrid(checkPos);
@@ -55,7 +55,7 @@ namespace BlainePain.Test
         [Fact]
         public void GetValueForInvalidPositionThrowsException()
         {
-            Action act = () => grid.GetValue(new Coord(-1, 0));
+            Action act = () => grid.GetValue(new (-1, 0));
 
             act.Should().Throw<InvalidOperationException>()
                 .WithMessage("Invalid Position specified: [-1,0].");
