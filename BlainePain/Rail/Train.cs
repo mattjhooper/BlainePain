@@ -63,7 +63,7 @@ namespace BlainePain.Rail
             foreach (char c in train)
             {
                 Coord gridPos = track.GetGridPosition(trackPos);
-                grid.PutValue(gridPos, c);
+                grid[gridPos] = c;
 
                 // have to reverse direction as drawing the train so the next position is opposite of the train direction
                 trackPos = track.GetNextTrackPosition(trackPos, !IsClockwise);

@@ -58,7 +58,7 @@ namespace BlainePain.Rail
         {
             foreach((Coord pos, char val) in trackPieces)
             {
-                grid.PutValue(pos, val);
+                grid[pos] = val;
             }
         }
     }

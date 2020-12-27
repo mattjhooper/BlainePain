@@ -8,6 +8,24 @@ namespace BlainePain.Geometry
     {
         private readonly string[] grid;
 
+        private char GetValue(Coord pos)
+        {
+            if (!IsInGrid(pos))
+                throw new InvalidOperationException($"Invalid Position specified: [{pos.x},{pos.y}].");
+
+            return grid[pos.y][pos.x];
+        }
+
+        private void PutValue(Coord pos, char value)
+        {
+            if (!IsInGrid(pos))
+                throw new InvalidOperationException($"Invalid Position specified: [{pos.x},{pos.y}].");
+
+            char[] yChars = grid[pos.y].ToCharArray();
+            yChars[pos.x] = value;
+            grid[pos.y] = new string(yChars);
+        }
+
         public Grid(string gridSource)
         {
             grid = gridSource.Split('\n');
@@ -23,17 +41,15 @@ namespace BlainePain.Geometry
 
         public int MaxY => grid.Length - 1;
 
-        public char GetValue(Coord pos)
+        public char this[Coord pos]
         {
-            if (!IsInGrid(pos))
-                throw new InvalidOperationException($"Invalid Position specified: [{pos.x},{pos.y}].");
-            
-            return  grid[pos.y][pos.x];
+            get => GetValue(pos);
+            set => PutValue(pos, value);
         }
-        
+
         public void PrintGrid()
         {
-            Console.SetCursorPosition(0, 0);              
+            Console.SetCursorPosition(0, 0);
             for (int y = 0; y <= MaxY; y++)
             {
                 Console.WriteLine(grid[y]);
@@ -42,23 +58,13 @@ namespace BlainePain.Geometry
 
         public void ClearGrid()
         {
-            Console.Clear();  
-            
+            Console.Clear();
+
             for (int y = 0; y <= MaxY; y++)
             {
                 grid[y] = new string(' ', grid[y].Length);
             }
         }
-
-        public void PutValue(Coord pos, char value)
-        {
-            if (!IsInGrid(pos))
-                throw new InvalidOperationException($"Invalid Position specified: [{pos.x},{pos.y}].");
-
-            char[] yChars = grid[pos.y].ToCharArray();
-            yChars[pos.x] = value;
-            grid[pos.y] = new string(yChars);
-        }    
 
         public bool IsMaxExtent(Coord pos) => pos.x == MaxX && pos.y == MaxY;
 

@@ -55,7 +55,8 @@ namespace BlainePain.Test
         [Fact]
         public void GetValueForInvalidPositionThrowsException()
         {
-            Action act = () => grid.GetValue(new (-1, 0));
+            char res;
+            Action act = () => res = grid[new (-1, 0)];
 
             act.Should().Throw<InvalidOperationException>()
                 .WithMessage("Invalid Position specified: [-1,0].");
@@ -67,17 +68,17 @@ namespace BlainePain.Test
             var pos = new Coord(1,1);
 
             // Assert
-            grid.GetValue(pos).Should().Be('5');
+            grid[pos].Should().Be('5');
 
-            grid.PutValue(pos, 'X');
+            grid[pos] = 'X';
 
-            grid.GetValue(pos).Should().Be('X');
+            grid[pos].Should().Be('X');
         }
 
         [Fact]
         public void PutValueForInvalidPositionThrowsException()
         {
-            Action act = () => grid.PutValue(new Coord(-1, 0), 'X');
+            Action act = () => grid[new Coord(-1, 0)] = 'X';
 
             act.Should().Throw<InvalidOperationException>()
                 .WithMessage("Invalid Position specified: [-1,0].");

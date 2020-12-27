@@ -96,7 +96,7 @@ namespace BlainePain.Test
             // Act
             do
             {
-                char piece = grid.GetValue(pos);
+                char piece = grid[pos];
                 resultTrack.Append(piece);
                 var res = TrackBuilder.GetNextTrackPiece(nav, grid, pos, direction);
                 moreTrack = res.Found;

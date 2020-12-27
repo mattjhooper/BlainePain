@@ -8,8 +8,11 @@ namespace BlainePain.Geometry
 
         void ClearGrid();
         
-        char GetValue(Coord pos);
-        void PutValue(Coord pos, char value);
+        char this [Coord pos]
+        {
+            get;
+            set;
+        }
 
         bool IsMaxExtent(Coord pos);
 

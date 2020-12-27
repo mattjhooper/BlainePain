@@ -132,7 +132,7 @@ namespace BlainePain.Rail
 
             do
             {
-                char piece = grid.GetValue(pos);
+                char piece = grid[pos];
                 if (!IsTrackPiece(piece))
                     throw new InvalidOperationException($"Invalid Track Piece specified: {piece}. At {pos}.");
 

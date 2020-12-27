@@ -24,7 +24,7 @@ namespace BlainePain.Navigation
             if (! grid.IsInGrid(newPos))
                 return new NavigationResult(false, newPos, null);
 
-            return new NavigationResult(true, newPos, grid.GetValue(newPos));
+            return new NavigationResult(true, newPos, grid[newPos]);
         }
 
         public NavigationResult CheckStartOfNextRow(IGrid grid, Coord startPos)
@@ -34,7 +34,7 @@ namespace BlainePain.Navigation
             if (! grid.IsInGrid(newPos))
                 return new NavigationResult(false, newPos, null);
 
-            return new NavigationResult(true, newPos, grid.GetValue(newPos));
+            return new NavigationResult(true, newPos, grid[newPos]);
         }
 
         public NavigationResult FindFirst(IGrid grid, Predicate<char?> predicate)
