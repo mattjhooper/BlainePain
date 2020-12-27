@@ -65,13 +65,24 @@ namespace BlainePain.Test
         [InlineData(21, '|')]
         public void IsTrackPiece(int trackPos, char expectedPiece)
         {
-            track.GetTrackPiece(trackPos).Should().Be(expectedPiece);            
+            track.GetTrackPiece(trackPos).Should().Be(expectedPiece);
+            track[trackPos].Should().Be(expectedPiece);           
         }
 
         [Fact]
         public void InvalidGetTrackPieceThrowsException()
         {
             Action act = () => track.GetTrackPiece(22);
+
+            act.Should().Throw<InvalidOperationException>()
+                .WithMessage("Invalid Track Position specified: [22].");
+        }
+
+        [Fact]
+        public void InvalidTrackIndexerThrowsException()
+        {
+            char res;
+            Action act = () => res = track[22];
 
             act.Should().Throw<InvalidOperationException>()
                 .WithMessage("Invalid Track Position specified: [22].");

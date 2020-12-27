@@ -49,6 +49,10 @@ namespace BlainePain.Rail
             return trackPieces[trackPosition].val;
         }
 
+        public char this[int trackPosition]
+        {
+            get => GetTrackPiece(trackPosition);            
+        }
 
         public void AddToGrid(IGrid grid)
         {

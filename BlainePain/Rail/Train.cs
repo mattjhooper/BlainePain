@@ -23,7 +23,7 @@ namespace BlainePain.Rail
 
         public int TimeRemainingAtStation { get; private set; }
 
-        private bool IsAtStation => track.GetTrackPiece(TrainTrackPosition) == 'S';
+        private bool IsAtStation => track[TrainTrackPosition] == 'S';
 
         public IEnumerable<Coord> Positions
         {
